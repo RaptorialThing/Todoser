@@ -18,7 +18,22 @@ In `terminal` or `cmd`
 
 - `$ bundle install`
 
-- `$ docker-compose up` for postgresql in docker
+- `$ cp .env.example .env`
+
+- `$ docker-compose up` for postgresql in docker or `$ docker-compose up -d` in background
+
+- [if the following errors](#connection-error)
+
+- `$ rails db:create`
+
+- `$ rails db:migrate`
+
+- `$ rails s` for server starting
+
+Then open `http://localhost:3000` at your web-browser
+
+
+### connection error
 
 If the following error messages appear in the console:
 
@@ -35,9 +50,3 @@ container needs to be recreated:
 - `$ docker-compose down`
 
 - `$ docker-compose up --force-recreate`
-
-- `$ rails db:migrate`
-
-- `$ rails s` for server starting
-
-Then open `http://localhost:3000` at your web-browser
