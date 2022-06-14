@@ -1,44 +1,24 @@
 # README
 
-# Todoser
+This README would normally document whatever steps are necessary to get the
+application up and running.
 
-### Requirements
+Things you may want to cover:
 
-`ruby >= 2.7.0`
+* Ruby version
 
-`rails ~> 6.1.4`
+* System dependencies
 
-### Installation & using
+* Configuration
 
-In `terminal` or `cmd`
+* Database creation
 
-- `$ git clone git@github.com:XaoGao/Todoser.git`
+* Database initialization
 
-- `$ gem install bundler` - if needed
+* How to run the test suite
 
-- `$ bundle install`
+* Services (job queues, cache servers, search engines, etc.)
 
-- `$ cp .env.example .env`
+* Deployment instructions
 
-- `$ docker-compose up` for postgresql in docker or `$ docker-compose up -d` in background
-
-- [if the following errors](#connection-error)
-
-- `$ rails db:create`
-
-- `$ rails db:migrate`
-
-- `$ rails s` for server starting
-
-Then open `http://localhost:3000` at your web-browser
-
-
-### connection error
-
-If the following error messages appear in the console:
-
-	@@ -34,10 +49,4 @@ container needs to be recreated:
-
-- `$ docker-compose down`
-
-- `$ docker-compose up --force-recreate`
+* ...

@@ -13,7 +13,6 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  username               :string           default(""), not null
-#  online                 :boolean          default(FALSE)
 #
 FactoryBot.define do
   factory :user do
@@ -22,6 +21,5 @@ FactoryBot.define do
     username  { "@#{Faker::Internet.username}" }
     email { Faker::Internet.email }
     password { "password" }
-    online { false }
   end
 end

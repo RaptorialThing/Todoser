@@ -2,20 +2,11 @@
   User.create(
     first_name: Faker::Name.first_name,
     last_name: Faker::Name.last_name,
-    username: Faker::Internet.username,
-    email: "t#{i}@t.t",
+    email: "t#{i}@t.com",
     password: "password"
   )
 end
 
-10.times do |i|
-  Project.create(
-    title: Faker::App.name,
-    author: User.all.sample,
-    short_title: "#{i}-p",
-    status: Project.statuses[:active]
-  )
-end
 
 Project.all.each do |project|
   10.times do
@@ -23,15 +14,17 @@ Project.all.each do |project|
       title: Faker::App.name,
       description: Faker::Lorem.paragraph,
       status: 0,
-      author: User.all.sample,
+      author: User.first,
       project: project
     )
   end
 end
 
-20.times do |i|
-  ProjectMember.create(
-    project: Project.all.sample,
-    user: User.all.sample
-  )
+Project.all.each do |project|
+  project.tasks.statuses.each do |key, _|
+    project.tasks.send(key).each_with_index do |task, index|
+      task.update(position: index + 1)
+    end
+  end
 end
+
