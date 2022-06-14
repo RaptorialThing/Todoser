@@ -10,7 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_10_195058) do
+ActiveRecord::Schema.define(version: 2022_06_11_072315) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
@@ -25,8 +28,8 @@ ActiveRecord::Schema.define(version: 2022_05_10_195058) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
-    t.integer "record_id", null: false
-    t.integer "blob_id", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
@@ -45,14 +48,26 @@ ActiveRecord::Schema.define(version: 2022_05_10_195058) do
   end
 
   create_table "active_storage_variant_records", force: :cascade do |t|
-    t.integer "blob_id", null: false
+    t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "comments", force: :cascade do |t|
+    t.text "body", default: "", null: false
+    t.bigint "user_id", null: false
+    t.string "commentable_type"
+    t.bigint "commentable_id"
+    t.datetime "delete_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable"
+    t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
   create_table "project_members", force: :cascade do |t|
-    t.integer "project_id", null: false
-    t.integer "user_id", null: false
+    t.bigint "project_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["project_id"], name: "index_project_members_on_project_id"
@@ -61,7 +76,7 @@ ActiveRecord::Schema.define(version: 2022_05_10_195058) do
 
   create_table "projects", force: :cascade do |t|
     t.string "title", null: false
-    t.integer "author_id", null: false
+    t.bigint "author_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "delete_at"
@@ -73,14 +88,14 @@ ActiveRecord::Schema.define(version: 2022_05_10_195058) do
   create_table "tasks", force: :cascade do |t|
     t.string "title", default: "", null: false
     t.integer "status", default: 0, null: false
-    t.integer "author_id", null: false
-    t.integer "project_id", null: false
+    t.bigint "author_id", null: false
+    t.bigint "project_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "delete_at"
     t.integer "position", default: 0, null: false
     t.integer "priority", default: 0, null: false
-    t.integer "executor_id"
+    t.bigint "executor_id"
     t.index ["author_id"], name: "index_tasks_on_author_id"
     t.index ["executor_id"], name: "index_tasks_on_executor_id"
     t.index ["project_id"], name: "index_tasks_on_project_id"
@@ -97,12 +112,14 @@ ActiveRecord::Schema.define(version: 2022_05_10_195058) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "username", default: "", null: false
+    t.boolean "online", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "comments", "users"
   add_foreign_key "project_members", "projects"
   add_foreign_key "project_members", "users"
   add_foreign_key "projects", "users", column: "author_id"

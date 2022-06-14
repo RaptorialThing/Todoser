@@ -31,7 +31,7 @@ class Project < ApplicationRecord
     members.collect { |u| [u.email, u.id] }
   end
 
-  def tasks_list_of(task_status)
+  def tasks_by_status(task_status)
     tasks.public_send(task_status).order("position")
   end
 end
